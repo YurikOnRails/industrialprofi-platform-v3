@@ -27,7 +27,7 @@ default: &default
 
 development:
   <<: *default
-  database: untitled_application_development
+  database: industrialprofi_development
   # On MacOS some users are reporting crashes when first trying to access
   # the database. This workaround was suggested in this issue on `ruby-pg`:
   # https://github.com/ged/ruby-pg/issues/538
@@ -37,7 +37,7 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: untitled_application-app
+  #username: industrialprofi-app
 
   # The password associated with the postgres role (username).
   #password:
@@ -80,7 +80,7 @@ test:
     end
     worktree_suffix = "_#{worktree_suffix}" if worktree_suffix.present?
   %>
-  database: untitled_application_test<%= worktree_suffix %><%= ENV['TEST_ENV_NUMBER'] %>
+  database: industrialprofi_test<%= worktree_suffix %><%= ENV['TEST_ENV_NUMBER'] %>
   <% if ENV['CI'] %>username: <%= ENV['POSTGRES_USER'] %><% end %>
   <% if ENV['CI'] %>password: <%= ENV['POSTGRES_PASSWORD'] %><% end %>
   <% if ENV['CI'] %>host: localhost<% end %>
@@ -106,7 +106,7 @@ test:
 #
 production:
   <<: *default
-  database: untitled_application_production
-  username: untitled_application
-  password: <%= ENV['UNTITLED_APPLICATION_DATABASE_PASSWORD'] %>
+  database: industrialprofi_production
+  username: industrialprofi
+  password: <%= ENV['INDUSTRIALPROFI_DATABASE_PASSWORD'] %>
   url: <%= ENV['DATABASE_URL'] %>

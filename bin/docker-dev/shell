@@ -6,5 +6,5 @@ APP_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 docker run -it \
   --mount type=bind,src="${APP_ROOT}",dst=/rails \
   -e DATABASE_USERNAME="$(whoami)" \
-  untitled_application_dev \
+  industrialprofi_dev \
   /bin/bash

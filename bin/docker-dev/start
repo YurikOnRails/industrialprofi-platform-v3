@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker start untitled_application_dev
+docker start industrialprofi_dev

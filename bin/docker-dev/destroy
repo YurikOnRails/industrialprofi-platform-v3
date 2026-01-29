@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker container rm untitled_application_dev
-docker image rm untitled_application_dev
+docker container rm industrialprofi_dev
+docker image rm industrialprofi_dev
