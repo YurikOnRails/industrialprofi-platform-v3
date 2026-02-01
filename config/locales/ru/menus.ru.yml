@@ -1,0 +1,13 @@
+ru:
+  menus:
+    main:
+      labels:
+        integrations: Интеграции
+        developers: Разработчики
+        team: Команда
+        team_settings: Настройки команды
+        your_account: Ваш аккаунт
+        edit_account_details: Настройки профиля
+        switch_teams: Сменить команду
+        add_new_team: Создать команду
+        logout: Выйти

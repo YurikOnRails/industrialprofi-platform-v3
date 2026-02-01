@@ -1,0 +1,112 @@
+ru:
+  permit_types: &permit_types
+    label: &label Виды допусков
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-id-card
+    buttons: &buttons
+      new: Добавить вид допуска
+      create: Создать
+      edit: Редактировать
+      update: Сохранить
+      destroy: Удалить
+      shorthand:
+        edit: Изм.
+        destroy: Удал.
+      confirmations:
+        destroy: Вы уверены, что хотите удалить %{permit_type_name}? Это действие нельзя отменить.
+    permit_type:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: ID
+      team_id:
+        heading: ID организации
+      name:
+        _: &name Название
+        label: *name
+        heading: *name
+      validity_months:
+        _: &validity_months Срок действия (мес.)
+        label: *validity_months
+        heading: *validity_months
+      national_standard:
+        _: &national_standard Нормативный документ
+        label: *national_standard
+        heading: *national_standard
+      penalty_amount:
+        _: &penalty_amount Сумма штрафа (₽)
+        label: *penalty_amount
+        heading: *penalty_amount
+      penalty_article:
+        _: &penalty_article Статья КоАП
+        label: *penalty_article
+        heading: *penalty_article
+      training_hours:
+        _: &training_hours Часов обучения
+        label: *training_hours
+        heading: *training_hours
+      requires_protocol:
+        _: &requires_protocol Требуется протокол
+        label: *requires_protocol
+        heading: *requires_protocol
+        options:
+          "yes": "Да"
+          "no": "Нет"
+      created_at:
+        _: &created_at Создано
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Обновлено
+        label: *updated_at
+        heading: *updated_at
+    index:
+      section: "Виды допусков %{team_name}"
+      contexts:
+        team:
+          header: Виды допусков
+          description: Список видов допусков для %{team_name}.
+          description_empty: Виды допусков ещё не добавлены.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{permit_type_name}"
+      header: Информация о допуске
+      description: Детальная информация о виде допуска %{permit_type_name}.
+      manage_description: Вы можете изменить или удалить этот вид допуска.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "Новый вид допуска"
+      header: Создание вида допуска
+      description: Заполните информацию о новом виде допуска.
+      form: *form
+    edit:
+      section: "%{permit_type_name}"
+      header: Редактирование
+      description: Измените информацию о виде допуска.
+      form: *form
+    notifications:
+      created: Вид допуска успешно создан.
+      updated: Вид допуска успешно обновлён.
+      destroyed: Вид допуска удалён.
+  account:
+    permit_types: *permit_types
+  activerecord:
+    attributes:
+      permit_type:
+        name: *name
+        validity_months: *validity_months
+        national_standard: *national_standard
+        penalty_amount: *penalty_amount
+        penalty_article: *penalty_article
+        training_hours: *training_hours
+        requires_protocol: *requires_protocol
+        created_at: *created_at
+        updated_at: *updated_at

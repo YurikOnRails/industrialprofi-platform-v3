@@ -2,6 +2,31 @@
   <% p.content_for :title, t('.header', teams_possessive: possessive_string(@team.name)) %>
 
   <% p.content_for :body do %>
+    <%
+      # Calculate dashboard stats
+      all_certifications = @team.workers.includes(:certifications, certifications: :permit_type).flat_map(&:certifications)
+      
+      expired_certs = all_certifications.select { |c| c.status == :expired }
+      critical_certs = all_certifications.select { |c| c.status == :critical }
+      attention_certs = all_certifications.select { |c| c.status == :attention }
+      
+      penalty_sum = expired_certs.sum { |c| c.permit_type&.penalty_amount || 0 }
+      
+      urgent_certifications = (expired_certs + critical_certs)
+        .sort_by { |c| c.expires_at || Date.new(1900, 1, 1) }
+        .first(5)
+    %>
+    
+    <%= render "account/dashboard/stats_widgets", 
+               penalty_sum: penalty_sum,
+               expired_count: expired_certs.size,
+               critical_count: critical_certs.size,
+               attention_count: attention_certs.size %>
+    
+    <%= render "account/dashboard/urgent_table", urgent_certifications: urgent_certifications %>
+    
+    <%= render "account/workers/index", workers: @team.workers, hide_back: true %>
+    <%= render "account/permit_types/index", permit_types: @team.permit_types, hide_back: true %>
     <%# 🚅 super scaffolding will insert new children above this line. %>
     
     <%= render 'account/scaffolding/absolutely_abstract/creative_concepts/index', creative_concepts: @team.scaffolding_absolutely_abstract_creative_concepts, hide_back: true unless scaffolding_things_disabled? %>

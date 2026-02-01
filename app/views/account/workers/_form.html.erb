@@ -1,0 +1,23 @@
+<% cancel_path ||= worker.persisted? ? [:account, worker] : [:account, @team, :workers] %>
+
+<%= form_with model: worker, url: (worker.persisted? ? [:account, worker] : [:account, @team, :workers]), class: 'form' do |form| %>
+  <%= render "shared/limits/form", form: form, cancel_path: cancel_path do %>
+    <%= render 'account/shared/forms/errors', form: form %>
+
+    <% with_field_settings form: form do %>
+      <%= render 'shared/fields/text_field', method: :last_name, options: {autofocus: true} %>
+      <%= render 'shared/fields/text_field', method: :first_name %>
+      <%= render 'shared/fields/text_field', method: :middle_name %>
+      <%= render 'shared/fields/text_field', method: :employee_number %>
+      <%= render 'shared/fields/text_field', method: :department %>
+      <%= render 'shared/fields/text_field', method: :position %>
+      <%= render 'shared/fields/date_field', method: :hire_date %>
+      <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <% end %>
+
+    <div class="buttons">
+      <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+      <%= link_to t('global.buttons.cancel'), cancel_path, class: "button-secondary" %>
+    </div>
+  <% end %>
+<% end %>

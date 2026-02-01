@@ -1,0 +1,25 @@
+<% cancel_path ||= certification.persisted? ? [:account, certification] : [:account, @worker, :certifications] %>
+
+<%= form_with model: certification, url: (certification.persisted? ? [:account, certification] : [:account, @worker, :certifications]), class: 'form' do |form| %>
+  <%= render "shared/limits/form", form: form, cancel_path: cancel_path do %>
+    <%= render 'account/shared/forms/errors', form: form %>
+
+    <% with_field_settings form: form do %>
+      <%= render 'shared/fields/super_select', method: :permit_type_id, options: {autofocus: true}, html_options: {autofocus: true},
+        choices: @certification.valid_permit_types.map { |permit_type| [permit_type.label_string, permit_type.id] } %>
+      <%= render 'shared/fields/date_field', method: :issued_at %>
+      <%= render 'shared/fields/date_field', method: :expires_at %>
+      <%= render 'shared/fields/text_field', method: :document_number %>
+      <%= render 'shared/fields/text_field', method: :protocol_number %>
+      <%= render 'shared/fields/date_field', method: :protocol_date %>
+      <%= render 'shared/fields/text_field', method: :training_center %>
+      <%= render 'shared/fields/date_field', method: :next_check_date %>
+      <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <% end %>
+
+    <div class="buttons">
+      <%= form.submit (form.object.persisted? ? t('.buttons.update') : t('.buttons.create')), class: "button" %>
+      <%= link_to t('global.buttons.cancel'), cancel_path, class: "button-secondary" %>
+    </div>
+  <% end %>
+<% end %>

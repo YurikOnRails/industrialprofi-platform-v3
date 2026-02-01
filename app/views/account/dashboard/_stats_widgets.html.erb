@@ -1,0 +1,56 @@
+<% penalty_sum ||= 0 %>
+<% expired_count ||= 0 %>
+<% critical_count ||= 0 %>
+<% attention_count ||= 0 %>
+
+<div class="mb-8">
+  <h2 class="text-lg font-semibold text-gray-900 mb-4">Контроль допусков</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <!-- Penalty Widget -->
+    <div class="<%= penalty_sum > 0 ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200' %> border rounded-lg p-4">
+      <div class="text-sm font-medium <%= penalty_sum > 0 ? 'text-red-600' : 'text-green-600' %>">
+        Риск штрафов
+      </div>
+      <div class="text-2xl font-bold <%= penalty_sum > 0 ? 'text-red-700' : 'text-green-700' %>">
+        <%= number_to_currency(penalty_sum, unit: "₽", format: "%n %u", delimiter: " ", precision: 0) %>
+      </div>
+      <% if penalty_sum > 0 %>
+        <div class="text-xs text-red-500 mt-1">
+          Требуется внимание!
+        </div>
+      <% else %>
+        <div class="text-xs text-green-500 mt-1">
+          Все в порядке
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Expired Counter -->
+    <div class="bg-white border rounded-lg p-4 <%= expired_count > 0 ? 'border-red-300' : 'border-gray-200' %>">
+      <div class="text-sm font-medium text-gray-600">Просрочено</div>
+      <div class="text-2xl font-bold <%= expired_count > 0 ? 'text-red-600' : 'text-gray-400' %>">
+        <%= expired_count %>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">допусков</div>
+    </div>
+
+    <!-- Critical Counter -->
+    <div class="bg-white border rounded-lg p-4 <%= critical_count > 0 ? 'border-orange-300' : 'border-gray-200' %>">
+      <div class="text-sm font-medium text-gray-600">Критично (7 дн.)</div>
+      <div class="text-2xl font-bold <%= critical_count > 0 ? 'text-orange-600' : 'text-gray-400' %>">
+        <%= critical_count %>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">допусков</div>
+    </div>
+
+    <!-- Attention Counter -->
+    <div class="bg-white border rounded-lg p-4 <%= attention_count > 0 ? 'border-yellow-300' : 'border-gray-200' %>">
+      <div class="text-sm font-medium text-gray-600">Внимание (30 дн.)</div>
+      <div class="text-2xl font-bold <%= attention_count > 0 ? 'text-yellow-600' : 'text-gray-400' %>">
+        <%= attention_count %>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">допусков</div>
+    </div>
+  </div>
+</div>

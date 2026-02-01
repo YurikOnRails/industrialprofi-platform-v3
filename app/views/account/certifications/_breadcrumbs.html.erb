@@ -1,0 +1,8 @@
+<% certification ||= @certification %>
+<% worker ||= @worker || certification&.worker %>
+<%= render 'account/workers/breadcrumbs', worker: worker %>
+<%= render 'account/shared/breadcrumb', label: t('.label'), url: [:account, worker, :certifications] %>
+<% if certification&.persisted? %>
+  <%= render 'account/shared/breadcrumb', label: certification.label_string, url: [:account, certification] %>
+<% end %>
+<%= render 'account/shared/breadcrumbs/actions', only_for: 'certifications' %>

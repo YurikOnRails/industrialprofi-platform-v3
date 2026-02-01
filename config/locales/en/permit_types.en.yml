@@ -1,0 +1,138 @@
+en:
+  permit_types: &permit_types
+    label: &label Permit Types
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Permit Type
+      create: Create Permit Type
+      edit: Edit Permit Type
+      update: Update Permit Type
+      destroy: Remove Permit Type
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{permit_type_name}? This will also remove any child resources and can't be undone.
+    permit_type:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: Permit Type ID
+      team_id:
+        heading: Team ID
+      name:
+        _: &name Name
+        label: *name
+        heading: *name
+        api_title: *name
+        api_description: *name
+      validity_months:
+        _: &validity_months Validity Months
+        label: *validity_months
+        heading: *validity_months
+        api_title: *validity_months
+        api_description: *validity_months
+      national_standard:
+        _: &national_standard National Standard
+        label: *national_standard
+        heading: *national_standard
+        api_title: *national_standard
+        api_description: *national_standard
+      penalty_amount:
+        _: &penalty_amount Penalty Amount
+        label: *penalty_amount
+        heading: *penalty_amount
+        api_title: *penalty_amount
+        api_description: *penalty_amount
+      penalty_article:
+        _: &penalty_article Penalty Article
+        label: *penalty_article
+        heading: *penalty_article
+        api_title: *penalty_article
+        api_description: *penalty_article
+      training_hours:
+        _: &training_hours Training Hours
+        label: *training_hours
+        heading: *training_hours
+        api_title: *training_hours
+        api_description: *training_hours
+      requires_protocol:
+        _: &requires_protocol Requires Protocol
+        label: *requires_protocol
+        heading: *requires_protocol
+        api_title: *requires_protocol
+        api_description: *requires_protocol
+        options:
+          yes: "Yes"
+          no: "No"
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Permit Types"
+      index: "List Permit Types"
+      create: "Add a New Permit Type"
+      member_actions: "Actions for an Individual Permit Type"
+      show: "Retrieve a Permit Type"
+      update: "Update a Permit Type"
+      destroy: "Delete a Permit Type"
+      fields: *fields
+    index:
+      section: "%{teams_possessive} Permit Types"
+      contexts:
+        team:
+          header: Permit Types
+          description: Below is a list of Permit Types that have been added for %{team_name}.
+          description_empty: No Permit Types have been added for %{team_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{permit_type_name}"
+      header: Permit Type Details
+      description: Below are the details we have for %{permit_type_name}.
+      manage_description: You'll also find options for updating these details or removing %{permit_type_name} from %{team_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Permit Type for %{team_name}"
+      header: New Permit Type Details
+      description: Please provide the details of the new Permit Type you'd like to add to %{team_name}.
+      form: *form
+    edit:
+      section: "%{permit_type_name}"
+      header: Edit Permit Type Details
+      description: You can update the details or settings for %{permit_type_name} below.
+      form: *form
+    notifications:
+      created: Permit Type was successfully created.
+      updated: Permit Type was successfully updated.
+      destroyed: Permit Type was successfully destroyed.
+  account:
+    permit_types: *permit_types
+  activerecord:
+    attributes:
+      permit_type:
+        name: *name
+        validity_months: *validity_months
+        national_standard: *national_standard
+        penalty_amount: *penalty_amount
+        penalty_article: *penalty_article
+        training_hours: *training_hours
+        requires_protocol: *requires_protocol
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

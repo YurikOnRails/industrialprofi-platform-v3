@@ -1,0 +1,116 @@
+ru:
+  certifications: &certifications
+    label: &label Допуски
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-certificate
+    buttons: &buttons
+      new: Выдать допуск
+      create: Создать
+      edit: Редактировать
+      update: Сохранить
+      destroy: Удалить
+      shorthand:
+        edit: Изм.
+        destroy: Удал.
+      confirmations:
+        destroy: Вы уверены, что хотите удалить этот допуск?
+    certification:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: ID
+      worker_id:
+        heading: ID сотрудника
+      permit_type_id: &permit_type
+        _: &permit_type_id Вид допуска
+        label: *permit_type_id
+        heading: *permit_type_id
+        placeholder: Выберите вид допуска
+      permit_type: *permit_type
+      issued_at:
+        _: &issued_at Дата выдачи
+        label: *issued_at
+        heading: Выдан
+      expires_at:
+        _: &expires_at Действует до
+        label: *expires_at
+        heading: Истекает
+      document_number:
+        _: &document_number Номер удостоверения
+        label: *document_number
+        heading: № удост.
+      protocol_number:
+        _: &protocol_number Номер протокола
+        label: *protocol_number
+        heading: № прот.
+      protocol_date:
+        _: &protocol_date Дата протокола
+        label: *protocol_date
+        heading: Дата прот.
+      training_center:
+        _: &training_center Учебный центр
+        label: *training_center
+        heading: УЦ
+      next_check_date:
+        _: &next_check_date Дата след. проверки
+        label: *next_check_date
+        heading: След. проверка
+      created_at:
+        _: &created_at Создано
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Обновлено
+        label: *updated_at
+        heading: *updated_at
+    index:
+      section: "Допуски сотрудника"
+      contexts:
+        worker:
+          header: Допуски
+          description: Список допусков сотрудника %{worker_name}.
+          description_empty: У сотрудника пока нет допусков.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "Допуск"
+      header: Информация о допуске
+      description: Детальная информация о допуске.
+      manage_description: Вы можете изменить или удалить этот допуск.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "Выдача допуска"
+      header: Новый допуск
+      description: Заполните информацию о допуске для %{worker_name}.
+      form: *form
+    edit:
+      section: "Редактирование допуска"
+      header: Редактирование
+      description: Измените информацию о допуске.
+      form: *form
+    notifications:
+      created: Допуск успешно выдан.
+      updated: Допуск обновлён.
+      destroyed: Допуск удалён.
+  account:
+    certifications: *certifications
+  activerecord:
+    attributes:
+      certification:
+        permit_type_id: *permit_type_id
+        issued_at: *issued_at
+        expires_at: *expires_at
+        document_number: *document_number
+        protocol_number: *protocol_number
+        protocol_date: *protocol_date
+        training_center: *training_center
+        next_check_date: *next_check_date
+        created_at: *created_at
+        updated_at: *updated_at

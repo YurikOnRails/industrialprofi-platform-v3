@@ -1,0 +1,34 @@
+ru:
+  user_mailer:
+    signature: &SIGNATURE
+      html:
+        <p>Если у вас есть вопросы, пожалуйста, не стесняйтесь <a href="mailto:%{support_email}">отправить нам письмо</a>.</p>
+        <p>С уважением,<br>Команда IndustrialProfi</p>
+    invited:
+      subject: Приглашение присоединиться к %{team_name} на IndustrialProfi!
+      preview: '%{inviter_name} отправил вам это приглашение.'
+      heading: Вы приглашены!
+      body:
+        html:
+          <p>
+            %{inviter_name} пригласил вас присоединиться к %{team_name} на IndustrialProfi.
+            Вы можете присоединиться к %{team_name}, нажав кнопку ниже.
+          </p>
+      cta:
+        label: Присоединиться к %{team_name}
+      signature:
+        <<: *SIGNATURE
+    welcome:
+      subject: Добро пожаловать в IndustrialProfi!
+      preview: Это письмо содержит информацию о том, как начать использовать ваш аккаунт.
+      heading: Добро пожаловать в IndustrialProfi!
+      body:
+        html:
+          <p>Это стандартное приветственное письмо! Содержимое этого приветственного письма можно обновить в `config/locales/ru/user_mailer.ru.yml`.</p>
+          <p>Спасибо команде <a href="https://postmarkapp.com">Postmark</a> за то, что сделали оригинальную основу для этого шаблона письма <a href="https://github.com/wildbit/postmark-templates">свободно доступной</a>.</p>
+      cta:
+        heading: Что дальше?
+        body: Вы можете использовать следующую ссылку, чтобы вернуться к панели управления вашей учетной записи.
+        label: Перейти к панели управления
+      signature:
+        <<: *SIGNATURE
