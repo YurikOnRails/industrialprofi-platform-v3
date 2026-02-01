@@ -10,6 +10,7 @@
     <td><%= render 'shared/attributes/belongs_to', attribute: :permit_type, url: [:account, certification] %></td>
     <td><%= render 'shared/attributes/date', attribute: :issued_at %></td>
     <td><%= render 'shared/attributes/date', attribute: :expires_at %></td>
+    <td><%= certification_status_badge(certification) %></td>
     <td><%= render 'shared/attributes/text', attribute: :document_number %></td>
     <td><%= render 'shared/attributes/text', attribute: :protocol_number %></td>
     <td><%= render 'shared/attributes/date', attribute: :protocol_date %></td>

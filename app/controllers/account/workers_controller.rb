@@ -4,6 +4,8 @@ class Account::WorkersController < Account::ApplicationController
   # GET /account/teams/:team_id/workers
   # GET /account/teams/:team_id/workers.json
   def index
+    # Apply search filter if query present
+    @workers = @workers.search_by_query(params[:query]) if params[:query].present?
     delegate_json_to_api
   end
 
@@ -14,19 +16,17 @@ class Account::WorkersController < Account::ApplicationController
   end
 
   # GET /account/teams/:team_id/workers/new
-  def new
-  end
+  def new; end
 
   # GET /account/workers/:id/edit
-  def edit
-  end
+  def edit; end
 
   # POST /account/teams/:team_id/workers
   # POST /account/teams/:team_id/workers.json
   def create
     respond_to do |format|
       if @worker.save
-        format.html { redirect_to [:account, @worker], notice: I18n.t("workers.notifications.created") }
+        format.html { redirect_to [:account, @worker], notice: I18n.t('workers.notifications.created') }
         format.json { render :show, status: :created, location: [:account, @worker] }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class Account::WorkersController < Account::ApplicationController
   def update
     respond_to do |format|
       if @worker.update(worker_params)
-        format.html { redirect_to [:account, @worker], notice: I18n.t("workers.notifications.updated") }
+        format.html { redirect_to [:account, @worker], notice: I18n.t('workers.notifications.updated') }
         format.json { render :show, status: :ok, location: [:account, @worker] }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,16 +54,14 @@ class Account::WorkersController < Account::ApplicationController
   def destroy
     @worker.destroy
     respond_to do |format|
-      format.html { redirect_to [:account, @team, :workers], notice: I18n.t("workers.notifications.destroyed") }
+      format.html { redirect_to [:account, @team, :workers], notice: I18n.t('workers.notifications.destroyed') }
       format.json { head :no_content }
     end
   end
 
   private
 
-  if defined?(Api::V1::ApplicationController)
-    include strong_parameters_from_api
-  end
+  include strong_parameters_from_api if defined?(Api::V1::ApplicationController)
 
   def process_params(strong_params)
     assign_date(strong_params, :hire_date)

@@ -1,5 +1,7 @@
 locales: &locales
   # This is the canonical list of available languages.
+  # Russian is first = default locale
+  ru: Русский
   en: English
   # ja: 日本語
 
@@ -7,6 +9,11 @@ locales: &locales
 en:
   locale:
     default: Default
+    locales: *locales
+
+ru:
+  locale:
+    default: По умолчанию
     locales: *locales
 
 ja:

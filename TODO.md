@@ -639,20 +639,20 @@ MAGIC_TEST=1 bin/rails test:system
   bin/rails test
   ```
 
-- [ ] **7.2** Проверить UI
+- [x] **7.2** Проверить UI
   ```bash
   bin/dev
   ```
   
   Чек-лист:
-  - [ ] Регистрация работает
-  - [ ] Можно создать PermitType
-  - [ ] Можно создать Worker
-  - [ ] Можно создать Certification (super_select показывает PermitTypes)
-  - [ ] expires_at автоматически рассчитывается
-  - [ ] Soft-delete Worker каскадно удаляет Certifications
+  - [x] Регистрация работает
+  - [x] Можно создать PermitType
+  - [x] Можно создать Worker
+  - [x] Можно создать Certification (super_select показывает PermitTypes)
+  - [x] expires_at автоматически рассчитывается
+  - [x] Soft-delete Worker каскадно удаляет Certifications
 
-- [ ] **7.3** Коммит
+- [x] **7.3** Коммит
   ```bash
   git add -A
   git commit -m "[PHASE-1] Generate core models: PermitType, Worker, Certification with business logic"
@@ -671,7 +671,7 @@ MAGIC_TEST=1 bin/rails test:system
 | 4 | Certification: scaffold → customize → test | ✅ Завершено |
 | 5 | Каскадный soft-delete | ✅ Завершено |
 | 6 | Seed data | ✅ Завершено |
-| 7 | Финальная проверка | 🔄 В процессе |
+| 7 | Финальная проверка | ✅ Завершено |
 
 ---
 
@@ -692,3 +692,273 @@ MAGIC_TEST=1 bin/rails test:system
 
 ### Идемпотентность seeds:
 Bullet Train требует чтобы `db:seed` можно было запускать многократно без создания дубликатов. Используй `find_or_create_by!`.
+
+---
+
+## ФАЗА 8: UI компоненты + Локализация
+
+### 8.1 Создать CertificationStatusHelper
+
+- [x] **8.1.1** Создать `app/helpers/certification_status_helper.rb`:
+  ```ruby
+  module CertificationStatusHelper
+    def certification_status_badge(certification)
+      status = certification.status
+      days = certification.days_until_expiry
+      
+      case status
+      when :expired
+        content_tag(:span, "Просрочен", class: "badge bg-red-500 text-white px-2 py-1 rounded")
+      when :critical
+        content_tag(:span, "#{days} дн.", class: "badge bg-orange-500 text-white px-2 py-1 rounded")
+      when :attention
+        content_tag(:span, "#{days} дн.", class: "badge bg-yellow-500 text-black px-2 py-1 rounded")
+      when :valid
+        content_tag(:span, "Действует", class: "badge bg-green-500 text-white px-2 py-1 rounded")
+      end
+    end
+  end
+  ```
+
+### 8.2 Модифицировать views для badges
+
+- [x] **8.2.1** Обновить `app/views/account/certifications/_certification.html.erb`:
+  - Добавить `<%= certification_status_badge(certification) %>` в строку
+
+- [x] **8.2.2** Обновить `app/views/account/workers/show.html.erb`:
+  - Добавить статус-badge рядом с каждым допуском
+
+### 8.3 Русская локализация
+
+- [x] **8.3.1** Создать `config/locales/ru/permit_types.ru.yml`
+- [x] **8.3.2** Создать `config/locales/ru/workers.ru.yml`
+- [x] **8.3.3** Создать `config/locales/ru/certifications.ru.yml`
+- [x] **8.3.4** Установить `config.i18n.default_locale = :ru` в `config/locales/locales.yml`
+
+- [x] **8.3.5** Запустить тесты и проверить UI
+  ```bash
+  bin/rails test
+  bin/dev
+  ```
+
+---
+
+## ФАЗА 9: Dashboard
+
+### 9.1 Модифицировать DashboardController
+
+- [x] **9.1.1** Открыть `app/controllers/account/dashboard_controller.rb` и добавить:
+  ```ruby
+  def index
+    @workers_count = current_team.workers.count
+    @certifications = current_team.workers.flat_map(&:certifications)
+    
+    @expired_count = @certifications.count { |c| c.status == :expired }
+    @critical_count = @certifications.count { |c| c.status == :critical }
+    @attention_count = @certifications.count { |c| c.status == :attention }
+    
+    @penalty_sum = @certifications
+      .select { |c| c.status == :expired }
+      .sum { |c| c.permit_type.penalty_amount || 0 }
+    
+    @urgent_certifications = @certifications
+      .select { |c| [:expired, :critical].include?(c.status) }
+      .sort_by { |c| c.expires_at || Date.new(1900, 1, 1) }
+      .first(5)
+  end
+  ```
+
+### 9.2 Создать Dashboard view
+
+- [x] **9.2.1** Создать `app/views/account/dashboard/_penalty_widget.html.erb`:
+  - Большая карточка "Риск штрафов: ₽X XXX XXX"
+  - Красный фон если > 0
+
+- [x] **9.2.2** Создать `app/views/account/dashboard/_status_counters.html.erb`:
+  - Три карточки: Просрочено (красный) / Критично (оранжевый) / Внимание (жёлтый)
+
+- [x] **9.2.3** Создать `app/views/account/dashboard/_urgent_table.html.erb`:
+  - Таблица "Требуют внимания" с топ-5 срочных допусков
+
+- [x] **9.2.4** Обновить `app/views/account/dashboard/index.html.erb`:
+  - Подключить все виджеты
+
+### 9.3 Добавить поиск по табельному номеру
+
+- [x] **9.3.1** Добавить scope в `app/models/worker.rb`:
+  ```ruby
+  scope :search_by_number, ->(query) { where("employee_number ILIKE ?", "%#{query}%") }
+  ```
+
+- [x] **9.3.2** Добавить фильтр в `app/controllers/account/workers_controller.rb`
+
+- [x] **9.3.3** Добавить поле поиска в `app/views/account/workers/index.html.erb`
+
+- [x] **9.3.4** Запустить тесты
+  ```bash
+  bin/rails test
+  ```
+
+---
+
+## ФАЗА 10: Email уведомления
+
+### 10.1 Создать CertificationExpirationMailer
+
+- [ ] **10.1.1** Сгенерировать mailer:
+  ```bash
+  bin/rails generate mailer CertificationExpiration expiring_soon
+  ```
+
+- [ ] **10.1.2** Реализовать `app/mailers/certification_expiration_mailer.rb`:
+  ```ruby
+  class CertificationExpirationMailer < ApplicationMailer
+    def expiring_soon(user, certifications, days)
+      @user = user
+      @certifications = certifications
+      @days = days
+      mail(to: @user.email, subject: "Допуски истекают в ближайшие #{days} дней")
+    end
+  end
+  ```
+
+- [ ] **10.1.3** Создать views:
+  - `app/views/certification_expiration_mailer/expiring_soon.html.erb`
+  - `app/views/certification_expiration_mailer/expiring_soon.text.erb`
+
+### 10.2 Создать CheckExpiringCertificationsJob
+
+- [ ] **10.2.1** Сгенерировать job:
+  ```bash
+  bin/rails generate job CheckExpiringCertifications
+  ```
+
+- [ ] **10.2.2** Реализовать `app/jobs/check_expiring_certifications_job.rb`:
+  - Проверка за 30 и 7 дней
+  - Отправка email всем членам Team
+
+- [ ] **10.2.3** Настроить sidekiq-cron в `config/schedule.yml`:
+  ```yaml
+  check_expiring_certifications:
+    cron: "0 6 * * *"  # 06:00 каждый день
+    class: "CheckExpiringCertificationsJob"
+  ```
+
+- [ ] **10.2.4** Протестировать вручную:
+  ```bash
+  CheckExpiringCertificationsJob.perform_now
+  ```
+
+---
+
+## ФАЗА 11: Экспорт Excel
+
+### 11.1 Создать ReportsController
+
+- [ ] **11.1.1** Создать `app/controllers/account/reports_controller.rb`:
+  ```ruby
+  class Account::ReportsController < Account::ApplicationController
+    def index
+    end
+    
+    def certifications
+      @certifications = current_team.workers.flat_map(&:certifications)
+      respond_to do |format|
+        format.xlsx
+      end
+    end
+  end
+  ```
+
+- [ ] **11.1.2** Добавить routes в `config/routes.rb`:
+  ```ruby
+  namespace :account do
+    resources :reports, only: [:index] do
+      collection do
+        get :certifications
+      end
+    end
+  end
+  ```
+
+### 11.2 Создать Excel шаблон
+
+- [ ] **11.2.1** Создать `app/views/account/reports/certifications.xlsx.axlsx`:
+  - Колонки: ФИО, Таб.№, Допуск, Дата выдачи, Истекает, Статус
+  - Форматирование: заголовки жирным, даты в формате DD.MM.YYYY
+
+- [ ] **11.2.2** Создать страницу `app/views/account/reports/index.html.erb`:
+  - Кнопка "Скачать отчёт по допускам"
+
+- [ ] **11.2.3** Протестировать скачивание
+
+---
+
+## ФАЗА 12: Импорт из Excel
+
+### 12.1 Создать Import функционал
+
+- [ ] **12.1.1** Создать шаблон `public/templates/workers_template.xlsx`:
+  - Колонки: Фамилия, Имя, Отчество, Таб.№, Должность, Подразделение
+
+- [ ] **12.1.2** Создать `app/controllers/account/workers/imports_controller.rb`
+
+- [ ] **12.1.3** Создать `app/services/workers/import_service.rb`:
+  ```ruby
+  class Workers::ImportService
+    def initialize(team, file)
+      @team = team
+      @file = file
+    end
+    
+    def call
+      spreadsheet = Roo::Spreadsheet.open(@file.path)
+      # ... parse and create workers
+    end
+  end
+  ```
+
+- [ ] **12.1.4** Создать view с формой загрузки:
+  - `app/views/account/workers/imports/new.html.erb`
+
+- [ ] **12.1.5** Добавить routes
+
+- [ ] **12.1.6** Протестировать импорт
+
+---
+
+## ФАЗА 13: Финальная проверка MVP
+
+- [ ] **13.1** Запустить все тесты
+  ```bash
+  bin/rails test
+  ```
+
+- [ ] **13.2** Проверить весь flow вручную:
+  - [ ] Регистрация
+  - [ ] Dashboard с виджетами
+  - [ ] CRUD для Workers и Certifications
+  - [ ] Email уведомления
+  - [ ] Экспорт Excel
+  - [ ] Импорт Excel
+
+- [ ] **13.3** Git commit и push
+  ```bash
+  git add -A
+  git commit -m "feat: Complete MVP - Dashboard, Email, Export, Import"
+  git push
+  ```
+
+---
+
+## Прогресс MVP
+
+| Фаза | Описание | Статус |
+|------|----------|--------|
+| 0-7 | Core Models (PermitType, Worker, Certification) | ✅ Завершено |
+| 8 | UI компоненты + Локализация | ✅ Завершено |
+| 9 | Dashboard | ✅ Завершено |
+| 10 | Email уведомления | ⬜ Не начато |
+| 11 | Экспорт Excel | ⬜ Не начато |
+| 12 | Импорт Excel | ⬜ Не начато |
+| 13 | Финальная проверка MVP | ⬜ Не начато |

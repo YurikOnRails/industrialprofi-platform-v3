@@ -1,0 +1,109 @@
+ru:
+  workers: &workers
+    label: &label Сотрудники
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-users
+    buttons: &buttons
+      new: Добавить сотрудника
+      create: Создать
+      edit: Редактировать
+      update: Сохранить
+      destroy: Уволить
+      shorthand:
+        edit: Изм.
+        destroy: Удал.
+      confirmations:
+        destroy: Вы уверены, что хотите уволить %{worker_name}? Все его допуски также будут архивированы.
+    worker:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: ID
+      team_id:
+        heading: ID организации
+      last_name:
+        _: &last_name Фамилия
+        label: *last_name
+        heading: *last_name
+      first_name:
+        _: &first_name Имя
+        label: *first_name
+        heading: *first_name
+      middle_name:
+        _: &middle_name Отчество
+        label: *middle_name
+        heading: *middle_name
+      employee_number:
+        _: &employee_number Табельный номер
+        label: *employee_number
+        heading: Таб. №
+      department:
+        _: &department Подразделение
+        label: *department
+        heading: *department
+      position:
+        _: &position Должность
+        label: *position
+        heading: *position
+      hire_date:
+        _: &hire_date Дата приёма
+        label: *hire_date
+        heading: *hire_date
+      created_at:
+        _: &created_at Создано
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Обновлено
+        label: *updated_at
+        heading: *updated_at
+    index:
+      section: "Сотрудники %{team_name}"
+      contexts:
+        team:
+          header: Сотрудники
+          description: Список сотрудников организации %{team_name}.
+          description_empty: Сотрудники ещё не добавлены.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{worker_name}"
+      header: Карточка сотрудника
+      description: Информация о сотруднике %{worker_name}.
+      manage_description: Вы можете изменить данные или уволить сотрудника.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "Новый сотрудник"
+      header: Добавление сотрудника
+      description: Заполните данные нового сотрудника.
+      form: *form
+    edit:
+      section: "%{worker_name}"
+      header: Редактирование
+      description: Измените данные сотрудника.
+      form: *form
+    notifications:
+      created: Сотрудник успешно добавлен.
+      updated: Данные сотрудника обновлены.
+      destroyed: Сотрудник уволен.
+  account:
+    workers: *workers
+  activerecord:
+    attributes:
+      worker:
+        last_name: *last_name
+        first_name: *first_name
+        middle_name: *middle_name
+        employee_number: *employee_number
+        department: *department
+        position: *position
+        hire_date: *hire_date
+        created_at: *created_at
+        updated_at: *updated_at

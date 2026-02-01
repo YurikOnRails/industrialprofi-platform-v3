@@ -15,6 +15,9 @@ class Worker < ApplicationRecord
 
   # Scopes
   default_scope -> { kept } # Exclude discarded by default
+  scope :search_by_query, lambda { |query|
+    where('employee_number ILIKE :q OR last_name ILIKE :q OR first_name ILIKE :q', q: "%#{query}%")
+  }
   # 🚅 add scopes above.
 
   # Validations
