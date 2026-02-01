@@ -1,0 +1,10 @@
+<% (I18n.available_locales - [I18n.locale]).each do |locale_option| %>
+  <%= render 'account/shared/menu/item', 
+      url: account_locale_path(locale: locale_option), 
+      method: :patch, 
+      label: t("locale.locales.#{locale_option}") do |p| %>
+    <% p.content_for :icon do %>
+      <i class="ti ti-world"></i>
+    <% end %>
+  <% end %>
+<% end %>

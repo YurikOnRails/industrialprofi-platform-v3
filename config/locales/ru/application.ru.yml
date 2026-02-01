@@ -1,0 +1,14 @@
+ru:
+  application:
+    name: IndustrialProfi
+    owner: Неопределенный разработчик
+    description: "Вы можете обновить это описание в `config/locales/ru/application.ru.yml`."
+    keywords: industrialprofi seo ключевые слова
+    support_email: change.me@localhost
+    key: industrialprofi
+  webhooks/outgoing/endpoints:
+    fields:
+      api_version:
+        options:
+          1: V1
+          # 🚅 super scaffolding will insert new api versions above this line.

@@ -1,21 +1,20 @@
 Rails.application.routes.draw do
   # See `config/routes/*.rb` to customize these configurations.
-  draw "concerns"
-  draw "devise"
-  draw "sidekiq"
-  draw "avo"
+  draw 'concerns'
+  draw 'devise'
+  draw 'sidekiq'
+  draw 'avo'
 
   # `collection_actions` is automatically super scaffolded to your routes file when creating certain objects.
   # This is helpful to have around when working with shallow routes and complicated model namespacing. We don't use this
-  # by default, but sometimes Super Scaffolding will generate routes that use this for `only` and `except` options.
-  collection_actions = [:index, :new, :create] # standard:disable Lint/UselessAssignment
+  # by default, but sometimes Super Scaffolding will generate routes that use this for `only` and `except` options. # standard:disable Lint/UselessAssignment
 
   # This helps mark `resources` definitions below as not actually defining the routes for a given resource, but just
   # making it possible for developers to extend definitions that are already defined by the `bullet_train` Ruby gem.
   # TODO Would love to get this out of the application routes file.
-  extending = {only: []}
+  extending = { only: [] }
 
-  scope module: "public" do
+  scope module: 'public' do
     # To keep things organized, we put non-authenticated controllers in the `Public::` namespace.
     # The root `/` path is routed to `Public::HomeController#index` by default. You can set it
     # to whatever you want by doing something like this:
@@ -31,7 +30,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    draw "api/v1"
+    draw 'api/v1'
     # 🚅 super scaffolding will insert new api versions above this line.
   end
 
@@ -54,6 +53,8 @@ Rails.application.routes.draw do
 
         # routes for standard user actions and resources are configured in the `bullet_train` gem, but you can add more here.
       end
+
+      resource :locale, only: [:update], controller: 'locales'
 
       # team-level resources.
       resources :teams, extending do
