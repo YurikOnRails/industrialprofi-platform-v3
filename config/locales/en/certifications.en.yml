@@ -1,0 +1,144 @@
+en:
+  certifications: &certifications
+    label: &label Certifications
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Certification
+      create: Create Certification
+      edit: Edit Certification
+      update: Update Certification
+      destroy: Remove Certification
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{certification_name}? This will also remove any child resources and can't be undone.
+    certification:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: Certification ID
+      worker_id:
+        heading: Worker ID
+      permit_type_id: &permit_type
+        _: &permit_type_id Permit Type
+        label: *permit_type_id
+        heading: *permit_type_id
+        api_title: *permit_type_id
+        api_description: *permit_type_id
+        placeholder: Select
+      permit_type: *permit_type
+      issued_at:
+        _: &issued_at Issued At
+        label: *issued_at
+        heading: *issued_at
+        api_title: *issued_at
+        api_description: *issued_at
+      expires_at:
+        _: &expires_at Expires At
+        label: *expires_at
+        heading: *expires_at
+        api_title: *expires_at
+        api_description: *expires_at
+      document_number:
+        _: &document_number Document Number
+        label: *document_number
+        heading: *document_number
+        api_title: *document_number
+        api_description: *document_number
+      protocol_number:
+        _: &protocol_number Protocol Number
+        label: *protocol_number
+        heading: *protocol_number
+        api_title: *protocol_number
+        api_description: *protocol_number
+      protocol_date:
+        _: &protocol_date Protocol Date
+        label: *protocol_date
+        heading: *protocol_date
+        api_title: *protocol_date
+        api_description: *protocol_date
+      training_center:
+        _: &training_center Training Center
+        label: *training_center
+        heading: *training_center
+        api_title: *training_center
+        api_description: *training_center
+      next_check_date:
+        _: &next_check_date Next Check Date
+        label: *next_check_date
+        heading: *next_check_date
+        api_title: *next_check_date
+        api_description: *next_check_date
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Certifications"
+      index: "List Certifications"
+      create: "Add a New Certification"
+      member_actions: "Actions for an Individual Certification"
+      show: "Retrieve a Certification"
+      update: "Update a Certification"
+      destroy: "Delete a Certification"
+      fields: *fields
+    index:
+      section: "%{workers_possessive} Certifications"
+      contexts:
+        worker:
+          header: Certifications
+          description: Below is a list of Certifications that have been added for %{worker_name}.
+          description_empty: No Certifications have been added for %{worker_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{certification_name}"
+      header: Certification Details
+      description: Below are the details we have for %{certification_name}.
+      manage_description: You'll also find options for updating these details or removing %{certification_name} from %{worker_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Certification for %{worker_name}"
+      header: New Certification Details
+      description: Please provide the details of the new Certification you'd like to add to %{worker_name}.
+      form: *form
+    edit:
+      section: "%{certification_name}"
+      header: Edit Certification Details
+      description: You can update the details or settings for %{certification_name} below.
+      form: *form
+    notifications:
+      created: Certification was successfully created.
+      updated: Certification was successfully updated.
+      destroyed: Certification was successfully destroyed.
+  account:
+    certifications: *certifications
+  activerecord:
+    attributes:
+      certification:
+        permit_type_id: *permit_type_id
+        issued_at: *issued_at
+        expires_at: *expires_at
+        document_number: *document_number
+        protocol_number: *protocol_number
+        protocol_date: *protocol_date
+        training_center: *training_center
+        next_check_date: *next_check_date
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

@@ -1,0 +1,32 @@
+<% worker = @worker || @worker %>
+<% context ||= worker %>
+<% collection ||= :certifications %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% with_attribute_settings object: certification do %>
+  <tr data-id="<%= certification.id %>" class="group">
+    <%= render "shared/tables/checkbox", object: certification %>
+    <td><%= render 'shared/attributes/belongs_to', attribute: :permit_type, url: [:account, certification] %></td>
+    <td><%= render 'shared/attributes/date', attribute: :issued_at %></td>
+    <td><%= render 'shared/attributes/date', attribute: :expires_at %></td>
+    <td><%= render 'shared/attributes/text', attribute: :document_number %></td>
+    <td><%= render 'shared/attributes/text', attribute: :protocol_number %></td>
+    <td><%= render 'shared/attributes/date', attribute: :protocol_date %></td>
+    <td><%= render 'shared/attributes/text', attribute: :training_center %></td>
+    <td><%= render 'shared/attributes/date', attribute: :next_check_date %></td>
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
+    <td class="buttons">
+      <% unless hide_actions %>
+        <% if can? :edit, certification %>
+          <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, certification], class: 'button-secondary button-smaller' %>
+        <% end %>
+        <% if can? :destroy, certification %>
+          <%= button_to t('.buttons.shorthand.destroy'), [:account, certification], method: :delete, data: { turbo_confirm: t('.buttons.confirmations.destroy', model_locales(certification)) }, class: 'button-secondary button-smaller' %>
+        <% end %>
+        <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

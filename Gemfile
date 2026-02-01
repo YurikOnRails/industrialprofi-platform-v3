@@ -160,6 +160,15 @@ gem "rack-cors"
 # Easy and automatic inline CSS for mailers
 gem "premailer-rails"
 
+# INDUSTRIALPROFI GEMS
+# Custom gems for the IndustrialPROFI application
+gem "discard", "~> 1.3"           # Soft deletes
+gem "sidekiq-cron", "~> 2.0"      # Scheduled jobs
+gem "caxlsx", "~> 4.1"            # Excel generation
+gem "caxlsx_rails", "~> 0.6"      # Rails integration for Excel
+gem "roo", "~> 2.10"              # Excel import
+gem "csv"                         # Required for Ruby 3.4+ (removed from stdlib)
+
 group :development do
   # Open any sent emails in your browser instead of having to setup an SMTP trap.
   gem "letter_opener"

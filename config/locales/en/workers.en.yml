@@ -1,0 +1,135 @@
+en:
+  workers: &workers
+    label: &label Workers
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: fal fa-puzzle-piece
+    buttons: &buttons
+      new: Add New Worker
+      create: Create Worker
+      edit: Edit Worker
+      update: Update Worker
+      destroy: Remove Worker
+      shorthand:
+        edit: Edit
+        destroy: Delete
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{worker_name}? This will also remove any child resources and can't be undone.
+    worker:
+      buttons: *buttons
+    fields: &fields
+      id:
+        heading: Worker ID
+      team_id:
+        heading: Team ID
+      last_name:
+        _: &last_name Last Name
+        label: *last_name
+        heading: *last_name
+        api_title: *last_name
+        api_description: *last_name
+      first_name:
+        _: &first_name First Name
+        label: *first_name
+        heading: *first_name
+        api_title: *first_name
+        api_description: *first_name
+      middle_name:
+        _: &middle_name Middle Name
+        label: *middle_name
+        heading: *middle_name
+        api_title: *middle_name
+        api_description: *middle_name
+      employee_number:
+        _: &employee_number Employee Number
+        label: *employee_number
+        heading: *employee_number
+        api_title: *employee_number
+        api_description: *employee_number
+      department:
+        _: &department Department
+        label: *department
+        heading: *department
+        api_title: *department
+        api_description: *department
+      position:
+        _: &position Position
+        label: *position
+        heading: *position
+        api_title: *position
+        api_description: *position
+      hire_date:
+        _: &hire_date Hire Date
+        label: *hire_date
+        heading: *hire_date
+        api_title: *hire_date
+        api_description: *hire_date
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Workers"
+      index: "List Workers"
+      create: "Add a New Worker"
+      member_actions: "Actions for an Individual Worker"
+      show: "Retrieve a Worker"
+      update: "Update a Worker"
+      destroy: "Delete a Worker"
+      fields: *fields
+    index:
+      section: "%{teams_possessive} Workers"
+      contexts:
+        team:
+          header: Workers
+          description: Below is a list of Workers that have been added for %{team_name}.
+          description_empty: No Workers have been added for %{team_name}.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{worker_name}"
+      header: Worker Details
+      description: Below are the details we have for %{worker_name}.
+      manage_description: You'll also find options for updating these details or removing %{worker_name} from %{team_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Worker for %{team_name}"
+      header: New Worker Details
+      description: Please provide the details of the new Worker you'd like to add to %{team_name}.
+      form: *form
+    edit:
+      section: "%{worker_name}"
+      header: Edit Worker Details
+      description: You can update the details or settings for %{worker_name} below.
+      form: *form
+    notifications:
+      created: Worker was successfully created.
+      updated: Worker was successfully updated.
+      destroyed: Worker was successfully destroyed.
+  account:
+    workers: *workers
+  activerecord:
+    attributes:
+      worker:
+        last_name: *last_name
+        first_name: *first_name
+        middle_name: *middle_name
+        employee_number: *employee_number
+        department: *department
+        position: *position
+        hire_date: *hire_date
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_01_020850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -82,6 +82,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
+  end
+
+  create_table "certifications", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.bigint "permit_type_id", null: false
+    t.date "issued_at"
+    t.date "expires_at"
+    t.string "document_number"
+    t.string "protocol_number"
+    t.date "protocol_date"
+    t.string "training_center"
+    t.date "next_check_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_certifications_on_discarded_at"
+    t.index ["permit_type_id"], name: "index_certifications_on_permit_type_id"
+    t.index ["worker_id"], name: "index_certifications_on_worker_id"
   end
 
   create_table "integrations_stripe_installations", force: :cascade do |t|
@@ -182,6 +200,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["uid"], name: "index_oauth_stripe_accounts_on_uid", unique: true
     t.index ["user_id"], name: "index_oauth_stripe_accounts_on_user_id"
+  end
+
+  create_table "permit_types", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "name"
+    t.integer "validity_months"
+    t.string "national_standard"
+    t.integer "penalty_amount"
+    t.string "penalty_article"
+    t.integer "training_hours"
+    t.boolean "requires_protocol", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_permit_types_on_team_id"
   end
 
   create_table "scaffolding_absolutely_abstract_creative_concepts", force: :cascade do |t|
@@ -349,9 +381,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
     t.index ["team_id"], name: "index_webhooks_outgoing_events_on_team_id"
   end
 
+  create_table "workers", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.string "last_name"
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "employee_number"
+    t.string "department"
+    t.string "position"
+    t.date "hire_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_workers_on_discarded_at"
+    t.index ["team_id"], name: "index_workers_on_team_id"
+  end
+
   add_foreign_key "account_onboarding_invitation_lists", "teams"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "certifications", "permit_types"
+  add_foreign_key "certifications", "workers"
   add_foreign_key "integrations_stripe_installations", "oauth_stripe_accounts"
   add_foreign_key "integrations_stripe_installations", "teams"
   add_foreign_key "invitations", "account_onboarding_invitation_lists", column: "invitation_list_id"
@@ -365,6 +415,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_applications", "teams"
   add_foreign_key "oauth_stripe_accounts", "users"
+  add_foreign_key "permit_types", "teams"
   add_foreign_key "scaffolding_absolutely_abstract_creative_concepts", "teams"
   add_foreign_key "scaffolding_completely_concrete_tangible_things", "scaffolding_absolutely_abstract_creative_concepts", column: "absolutely_abstract_creative_concept_id"
   add_foreign_key "scaffolding_completely_concrete_tangible_things_assignments", "memberships"
@@ -373,4 +424,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_175505) do
   add_foreign_key "webhooks_outgoing_endpoints", "scaffolding_absolutely_abstract_creative_concepts"
   add_foreign_key "webhooks_outgoing_endpoints", "teams"
   add_foreign_key "webhooks_outgoing_events", "teams"
+  add_foreign_key "workers", "teams"
 end

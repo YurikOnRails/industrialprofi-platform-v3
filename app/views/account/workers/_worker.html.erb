@@ -1,0 +1,31 @@
+<% team = @team || @team %>
+<% context ||= team %>
+<% collection ||= :workers %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+
+<% with_attribute_settings object: worker do %>
+  <tr data-id="<%= worker.id %>" class="group">
+    <%= render "shared/tables/checkbox", object: worker %>
+    <td><%= render 'shared/attributes/text', attribute: :last_name, url: [:account, worker] %></td>
+    <td><%= render 'shared/attributes/text', attribute: :first_name %></td>
+    <td><%= render 'shared/attributes/text', attribute: :middle_name %></td>
+    <td><%= render 'shared/attributes/text', attribute: :employee_number %></td>
+    <td><%= render 'shared/attributes/text', attribute: :department %></td>
+    <td><%= render 'shared/attributes/text', attribute: :position %></td>
+    <td><%= render 'shared/attributes/date', attribute: :hire_date %></td>
+    <%# 🚅 super scaffolding will insert new fields above this line. %>
+    <td><%= render 'shared/attributes/date_and_time', attribute: :created_at %></td>
+    <td class="buttons">
+      <% unless hide_actions %>
+        <% if can? :edit, worker %>
+          <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, worker], class: 'button-secondary button-smaller' %>
+        <% end %>
+        <% if can? :destroy, worker %>
+          <%= button_to t('.buttons.shorthand.destroy'), [:account, worker], method: :delete, data: { turbo_confirm: t('.buttons.confirmations.destroy', model_locales(worker)) }, class: 'button-secondary button-smaller' %>
+        <% end %>
+        <%# 🚅 super scaffolding will insert new action model buttons above this line. %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

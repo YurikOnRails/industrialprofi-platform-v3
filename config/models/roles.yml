@@ -1,5 +1,8 @@
 default:
   models:
+    Certification: read
+    Worker: read
+    PermitType: read
     Team: read
     Membership:
       - read
@@ -28,6 +31,9 @@ admin:
     - admin
     - editor
   models:
+    Certification: manage
+    Worker: manage
+    PermitType: manage
     Team: manage
     Membership: manage
     Scaffolding::AbsolutelyAbstract::CreativeConcept: manage
